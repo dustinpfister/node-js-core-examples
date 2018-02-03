@@ -8,12 +8,15 @@ let conf = {
     // dirs to be used in my libs
     dir_root: __dirname,
     dir_lib: path.join(__dirname, 'lib'),
-    dir_demos: path.join(__dirname, 'demos'),
-    dir_view: path.join(__dirname, 'view')
+    dir_demos: '',
+    dir_view: path.join(__dirname, 'view'),
+
+    // node version of demos
+    nodev: 8
 
 };
 
-
+conf.dir_demos = path.join(__dirname, 'demos',String(conf.nodev));
 
 let server = http.createServer();
 

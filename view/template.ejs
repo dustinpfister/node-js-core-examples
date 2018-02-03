@@ -7,8 +7,13 @@
 <body>
     <h1>node.js demos</h1>
 
+    <p>template: <%= dir_temp %></p>
+    <p>content: <%= dir_content %></p>
+	
+	<%- include(dir_content) %>
+	
     <!-- client system -->
-    <%- cs("yeah") %>
+    <%- cs() %>
 </body>
 
 </html>
