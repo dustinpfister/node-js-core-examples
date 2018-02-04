@@ -6,15 +6,15 @@
 var ping = function(){
 
     postIt({
-	
-	    data : 'ping',
-		done: function(xhr){
-		
-		   console.log(xhr.response);
-		
-		}
-	
-	});
+
+        data : JSON.stringify({mess:'I want cake!'}),
+        done: function(xhr){
+
+            console.log(xhr.response);
+
+        }
+
+    });
 
 };
 
