@@ -1,1 +1,21 @@
 <h2>this is the main deal</h2>
+<input type="button" value="ping" onclick="ping()">
+
+<script>
+
+var ping = function(){
+
+    postIt({
+	
+	    data : 'ping',
+		done: function(xhr){
+		
+		   console.log(xhr.response);
+		
+		}
+	
+	});
+
+};
+
+</script>
