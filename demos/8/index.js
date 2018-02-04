@@ -1,5 +1,5 @@
 
-
+/*
 module.exports = function (conf, req, res) {
 
     return new Promise(function (resolve,reject) {
@@ -9,3 +9,4 @@ module.exports = function (conf, req, res) {
     });
 
 }
+*/
