@@ -4,7 +4,6 @@ let spawn = require('child_process').spawn;
 
 console.log('main process started.');
 
-//
 let script = spawn('node', ['loop.js']);
 
 script.stdout.on('data', (data) => {
