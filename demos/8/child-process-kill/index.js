@@ -15,6 +15,7 @@ script.stdout.on('data', (data) => {
 
 });
 
+// start time
 let st = new Date();
 
 setInterval(function () {
