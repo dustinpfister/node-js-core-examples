@@ -1,16 +1,39 @@
-
 let fs = require('fs'),
 path = require('path'),
 cwd = process.cwd();
 
-fs.readFile(path.join(cwd, 'README.md'), 'utf-8', function (e, data) {
+// read file method
+let readFile = function (dir) {
 
-    if (e) {
+    // returns a promise
+    return new Promise(function (resolve, reject) {
 
-        console.log(e);
+        // read a file
+        fs.readFile(dir, 'utf-8', function (e, data) {
 
-    }
+            if (e) {
+
+                // reject if error
+                reject(e);
+
+            }
+
+            // else resolve with the data
+            resolve(data);
+
+        });
+
+    });
+
+};
+
+// read a file Promise style
+readFile(path.join(cwd, 'README.md')).then(function (data) {
 
     console.log(data);
+
+}).catch (function (e) {
+
+    console.log(e);
 
 });
