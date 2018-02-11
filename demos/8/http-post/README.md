@@ -1,3 +1,3 @@
-## http
+## http-post
 
-This is the basic demo for the node.js http module.
+A demo on processing incoming post requests
