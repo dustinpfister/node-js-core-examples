@@ -1,10 +1,10 @@
 
-let spawn = require('child_process').spawn;
+let fork = require('child_process').fork,
 
-let child = spawn('node', ['roll']);
+child = fork('child');
 
-child.stdout.on('data', function (data) {
+child.send(2);
+child.send(12);
+child.send(42);
 
-    console.log(data.toString());
-
-});
+child.disconnect();
