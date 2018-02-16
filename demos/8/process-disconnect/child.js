@@ -2,7 +2,7 @@ process.on('message', function (n) {
 
     if (n === 42) {
 
-        console.log('yes that is the anwser');
+        console.log('yes that is the answer');
 
     } else {
 
