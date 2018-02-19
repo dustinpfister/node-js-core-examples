@@ -3,7 +3,7 @@ let fs = require('fs'),
 path = require('path'),
 cwd = process.cwd();
 
-fs.stat(path.join(cwd, 'README.md'), function (e, data) {
+fs.stat(path.join(cwd, 'README.md'), function (e, stats) {
 
     if (e) {
 
@@ -11,6 +11,6 @@ fs.stat(path.join(cwd, 'README.md'), function (e, data) {
 
     }
 
-    console.log(data);
+    console.log(stats);
 
 });
