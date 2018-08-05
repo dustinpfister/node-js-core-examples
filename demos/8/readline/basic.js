@@ -6,33 +6,32 @@ let rl = readline.createInterface({
         prompt: '>'
     });
 
-//rl.setPrompt('>');
 rl.prompt();
+
+let options = {
+
+    pwd: function () {
+
+        console.log(process.cwd());
+        rl.prompt();
+
+    },
+
+    close: function () {
+
+        rl.close();
+
+    }
+
+};
 
 rl.on('line', (input) => {
 
     input = input.toLowerCase();
 
-    switch (input) {
+    if (input in options) {
 
-    case 'pwd':
-
-        console.log(process.cwd());
-        rl.prompt();
-
-        break;
-
-    case 'close':
-
-        rl.close();
-
-        break;
-
-    default:
-
-        rl.prompt();
-
-        break;
+        options[input]();
 
     }
 
