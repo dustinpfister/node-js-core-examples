@@ -8,7 +8,7 @@ let rl = readline.createInterface({
 
 rl.prompt();
 
-let options = {
+let commands = {
 
     pwd: function () {
 
@@ -29,16 +29,10 @@ rl.on('line', (input) => {
 
     input = input.toLowerCase();
 
-    if (input in options) {
+    if (input in commands) {
 
-        options[input]();
+        commands[input]();
 
     }
-
-});
-
-rl.on('resume', () => {
-
-    console.log('>');
 
 });
