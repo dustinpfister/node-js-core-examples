@@ -85,6 +85,34 @@ exports.editAPI = (filePath) => {
 
                     });
 
+                },
+
+                // write a string to the current filePos
+                write: function (string) {
+
+                    return new Promise((resolve, reject) => {
+
+                        fs.write(this.fd, string, this.filePos, 'utf-8', function (err, bytesWrite, string) {
+
+                            if (err) {
+
+                                reject(err);
+
+                            } else {
+
+                                resolve({
+
+                                    string: string,
+                                    bytes: bytesWrite
+
+                                });
+
+                            }
+
+                        });
+
+                    });
+
                 }
 
             });

@@ -24,6 +24,22 @@ let commands = {
 
         rl.close();
 
+    },
+
+    write: function (api, text) {
+
+        api.write(text).then((res) => {
+
+            console.log(res.bytes + ' bytes have been written');
+            rl.prompt();
+
+        }).catch ((err) => {
+
+            console.log(err);
+            rl.prompt();
+
+        })
+
     }
 
 }
@@ -33,9 +49,13 @@ openFile.editAPI(dir).then((api) => {
 
     rl.on('line', (input) => {
 
-        if (input in commands) {
+        let sp = input.split(/^ /),
+        com = sp[0] || '',
+        text = sp[1] || '';
 
-            commands[input](api);
+        if (com in commands) {
+
+            commands[com](api, text);
 
         }
 
