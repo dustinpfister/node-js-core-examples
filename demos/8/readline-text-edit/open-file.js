@@ -51,6 +51,8 @@ exports.editAPI = (filePath) => {
             // resolve with an api
             resolve({
                 fd: fd,
+                filePath: filePath,
+                root: path.dirname(filePath),
                 filePos: 0,
                 fileBuffSize: 256,
                 fileBuff: Buffer.alloc(256),
@@ -82,6 +84,29 @@ exports.editAPI = (filePath) => {
                             }
 
                         });
+
+                    });
+
+                },
+
+                // copy the file as the given new name
+                saveAs: function (newName) {
+
+                    return new Promise((resolve, reject) => {
+
+                        fs.copyFile(this.filePath, path.join(this.root, newName), (err) => {
+
+                            if (err) {
+
+                                reject(err)
+
+                            } else {
+
+                                resolve();
+
+                            }
+
+                        })
 
                     });
 

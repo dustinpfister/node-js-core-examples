@@ -20,18 +20,20 @@ dir = path.resolve(dir);
 
 let commands = {
 
+    // exit the editor
     exit: function () {
 
         rl.close();
 
     },
 
+    // write the string at the current file pos
     write: function (api, text) {
 
         api.write(text).then((res) => {
 
             console.log(res.bytes + ' bytes have been written');
-            rl.prompt();
+            this.read(api);
 
         }).catch ((err) => {
 
@@ -39,6 +41,22 @@ let commands = {
             rl.prompt();
 
         })
+
+    },
+
+    // read at the current file pos
+    read: function (api) {
+
+        api.read().then((buff) => {
+
+            console.log(buff.toString())
+            rl.prompt();
+
+        }).catch ((err) => {
+
+            console.log(err);
+
+        });
 
     }
 
@@ -71,16 +89,10 @@ openFile.editAPI(dir).then((api) => {
 
     });
 
-    api.read().then((buff) => {
+	api.saveAs('foo.txt')
+	
+    commands.read(api);
 
-        console.log(buff.toString())
-        rl.prompt();
-
-    }).catch ((err) => {
-
-        console.log(err);
-
-    });
 
 }).catch ((err) => {
 
