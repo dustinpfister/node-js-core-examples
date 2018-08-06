@@ -25,6 +25,7 @@ rl.prompt();
 
 let commands = {
 
+    // set angle command ( >a 45 )
     a: function (text) {
 
         conf.a = !text ? 0 : Number(text);
@@ -40,7 +41,19 @@ let commands = {
 
     },
 
-    // set center point
+    // set distance command ( >d 250 )
+    d: function (text) {
+
+        conf.d = !text ? 100 : Number(text);
+
+        // update the prompt
+        rl._prompt = conf.getPrompt();
+
+        rl.prompt();
+
+    },
+
+    // set center point command ( >c 90,37 )
     c: function (text) {
 
         conf.sx = 0;
@@ -62,7 +75,7 @@ let commands = {
 
     },
 
-    // find unknown (point on circle)
+    // find unknown point on circle ( >f )
     f: function () {
 
         let x = Math.cos(conf.a) * conf.d + conf.sx,
