@@ -14,12 +14,19 @@ dir = path.resolve(dir);
 // open the edit API
 openFile.editAPI(dir).then((api) => {
 
-    api.bytePos = 12;
+    api.setFileBuff(0,4);
     api.read().then((buff) => {
 
         console.log(buff.toString());
 
-    })
+        api.setFileBuff(12,8);
+        api.read().then((buff) => {
+
+            console.log(buff.toString());
+
+        })
+
+    });
 
 }).catch ((err) => {
 

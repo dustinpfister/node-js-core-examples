@@ -4,7 +4,7 @@ path = require('path');
 //Buffer = require('buffer');
 
 // module vars
-let fileBuff = Buffer.alloc(64);
+//let fileBuff = Buffer.alloc(64);
 
 //console.log(Buffer.alloc);
 
@@ -51,13 +51,24 @@ exports.editAPI = (filePath) => {
             // resolve with an api
             resolve({
                 fd: fd,
-                bytePos: 0,
+                filePos: 0,
+                fileBuffSize: 64,
                 fileBuff: Buffer.alloc(64),
+
+                // set the file buffer position, and size
+                setFileBuff: function (pos, size) {
+
+                    this.filePos = pos || 0;
+                    this.size = size || 64;
+                    this.fileBuff = Buffer.alloc(this.size);
+
+                },
+
                 read: function () {
 
                     return new Promise((resolve, reject) => {
 
-                        fs.read(this.fd, this.fileBuff, 0, this.fileBuff.length, this.bytePos, function (err, bytesRead, buff) {
+                        fs.read(this.fd, this.fileBuff, 0, this.fileBuff.length, this.filePos, function (err, bytesRead, buff) {
 
                             if (err) {
 
