@@ -6,25 +6,49 @@ openFile = require('./open-file'),
 
 // fine path to file
 dir = 'temp.txt';
+
+let rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        prompt: '>'
+    });
+
 if (process.argv[2]) {
     dir = process.argv[2]
 }
 dir = path.resolve(dir);
 
+let commands = {
+
+    exit: function () {
+
+        rl.close();
+
+    }
+
+}
+
 // open the edit API
 openFile.editAPI(dir).then((api) => {
 
-    api.setFileBuff(0,4);
+    rl.on('line', (input) => {
+
+        if (input in commands) {
+
+            commands[input](api);
+
+        }
+
+    });
+
     api.read().then((buff) => {
 
-        console.log(buff.toString());
+        console.log(buff.toString())
+        rl.prompt();
 
-        api.setFileBuff(12,8);
-        api.read().then((buff) => {
+    }).catch ((err) => {
 
-            console.log(buff.toString());
-
-        })
+        console.log(err);
 
     });
 

@@ -52,14 +52,14 @@ exports.editAPI = (filePath) => {
             resolve({
                 fd: fd,
                 filePos: 0,
-                fileBuffSize: 64,
-                fileBuff: Buffer.alloc(64),
+                fileBuffSize: 256,
+                fileBuff: Buffer.alloc(256),
 
                 // set the file buffer position, and size
                 setFileBuff: function (pos, size) {
 
                     this.filePos = pos || 0;
-                    this.size = size || 64;
+                    this.size = size || 256;
                     this.fileBuff = Buffer.alloc(this.size);
 
                 },
