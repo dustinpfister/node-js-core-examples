@@ -11,16 +11,20 @@ let rl = readline.createInterface({
 
 rl.prompt();
 
+// first argument should be a file to open
 if (process.argv[2]) {
 
     dir = path.resolve(process.argv[2]);
 
-	fs.readFile(dir, 'utf-8', function(err,text){
-		
-		
-		console.log(text);
-		
-	})
+    fs.readFile(dir, 'utf-8', function (err, text) {
+
+        if (!err) {
+
+            console.log(text);
+
+        }
+
+    })
 
 }
 
