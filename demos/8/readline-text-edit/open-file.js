@@ -112,6 +112,55 @@ exports.editAPI = (filePath) => {
 
                 },
 
+                del: function (startPos, endPos) {
+
+                    let api = this;
+
+                    return new Promise((resolve, reject) => {
+
+                        this.saveAs('del-temp.txt').then(() => {
+
+                            fs.truncate(path.join(api.root, 'del-temp.txt'), startPos, function (err) {
+
+                                if (err) {
+
+                                    reject(err)
+
+                                } else {
+
+                                    resolve();
+
+                                }
+
+                            });
+
+                            /*
+                            fs.readFile(path.join(api.root, 'del-temp.txt'), function (err, copy) {
+
+                            if (err) {
+
+                            reject(err);
+
+                            } else {
+
+
+                            fs.turnacate
+
+                            }
+
+                            });
+                             */
+
+                        }).catch ((err) => {
+
+                            reject(err);
+
+                        });
+
+                    });
+
+                },
+
                 // write a string to the current filePos
                 write: function (string) {
 

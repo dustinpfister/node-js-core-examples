@@ -89,7 +89,9 @@ openFile.editAPI(dir).then((api) => {
 
     });
 
-	api.saveAs('foo.txt')
+	api.del(5,6);
+	
+	//api.saveAs('foo.txt');
 	
     commands.read(api);
 
