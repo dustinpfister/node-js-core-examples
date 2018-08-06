@@ -49,9 +49,19 @@ openFile.editAPI(dir).then((api) => {
 
     rl.on('line', (input) => {
 
-        let sp = input.split(/^ /),
-        com = sp[0] || '',
-        text = sp[1] || '';
+        let firstSpace = input.match(/\s/);
+
+        // Get the command
+        let com = input; // com default to input
+        if (firstSpace) { // but if there is a space, it is what is before that space
+            com = input.slice(0, firstSpace.index);
+        }
+
+        // get the text
+        let text = ''; // text defaults to a blank sting
+        if (firstSpace) { // but if there is a space, it is what is before that space
+            text = input.slice(firstSpace.index + 1, input.length);
+        }
 
         if (com in commands) {
 
