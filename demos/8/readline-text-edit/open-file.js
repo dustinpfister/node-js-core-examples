@@ -37,22 +37,52 @@ exports.ensureFile = (filePath) => {
 
 };
 
+let read = function () {};
+
 // open a file for reading and writing
-exports.open = (filePath) => {
+exports.editAPI = (filePath) => {
 
-    this.ensureFile(filePath).then((fd) => {
+    let openFile = this;
 
-        fs.read(fd, fileBuff, 0, fileBuff.length, 0, function (err, bytesRead, buff) {
+    return new Promise((resolve, reject) => {
 
-            console.log(err);
-            console.log(buff.toString());
+        openFile.ensureFile(filePath).then((fd) => {
+
+            // resolve with an api
+            resolve({
+                fd: fd,
+                bytePos: 0,
+                fileBuff: Buffer.alloc(64),
+                read: function () {
+
+                    return new Promise((resolve, reject) => {
+
+                        fs.read(this.fd, this.fileBuff, 0, this.fileBuff.length, this.bytePos, function (err, bytesRead, buff) {
+
+                            if (err) {
+
+                                reject(err);
+
+                            } else {
+
+                                resolve(buff);
+
+                            }
+
+                        });
+
+                    });
+
+                }
+
+            });
+
+        }).catch ((err) => {
+
+            reject(err);
 
         });
 
-    }).catch ((err) => {
-
-        console.log(err);
-
-    });
+    })
 
 }
