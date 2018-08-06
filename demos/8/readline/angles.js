@@ -9,7 +9,7 @@ let conf = {
 
     getPrompt: function () {
 
-        return 'c=(' + this.sx + ',' + this.sy + ') a=' + this.a + ' d=' + this.d + ' >';
+        return 'c=(' + this.sx + ',' + this.sy + ') a=' + this.a.toFixed(2) + ' d=' + this.d + ' >';
 
     }
 
@@ -31,8 +31,6 @@ let commands = {
         conf.a = !text ? 0 : Number(text);
 
         conf.a = Math.PI / 180 * conf.a;
-
-        conf.a = Number(conf.a.toFixed(2));
 
         // update the prompt
         rl._prompt = conf.getPrompt();
