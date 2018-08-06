@@ -64,6 +64,7 @@ exports.editAPI = (filePath) => {
 
                 },
 
+                // read with the current buffer settings
                 read: function () {
 
                     return new Promise((resolve, reject) => {
