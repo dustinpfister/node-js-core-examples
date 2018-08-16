@@ -1,11 +1,18 @@
 let crypto = require('crypto'),
 fs = require('fs')
 
-// key an iv buffers
-let key = Buffer.alloc(32), 
-iv = Buffer.alloc(16);
+// Cipher Suites, key, and the iv
+let a = 'aes-256-cbc',
+key = Buffer.alloc(32), // key should be 32 bytes
+iv = Buffer.alloc(16); // iv should be 16
 
-cipher = crypto.createCipheriv('aes-256-cbc',key, iv);
+// make the key something other than a blank buffer
+key = Buffer.concat([Buffer.from('1234-spaceballs-was-the-best-movie-ever!')],key.length)
+
+// randomize the iv, for best results
+iv = Buffer.from(Array.prototype.map.call(iv, function(){  return Math.floor(Math.random() * 256)}))
+
+let cipher = crypto.createCipheriv(a,key, iv);
 
 let reader = fs.createReadStream('test.txt')
 
@@ -13,5 +20,4 @@ let reader = fs.createReadStream('test.txt')
 
 .on('data', function(chunk){
     console.log(chunk.toString())
-
 });
