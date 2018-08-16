@@ -1,10 +1,10 @@
 let fs = require('fs'),
 
-buff = Buffer.alloc(0);
+// start a write stream in a+ mode
+file = fs.createWriteStream(process.argv[2],{flags:'a+'});
 
-// start a read stream for a test.txt file
-let file = fs.createWriteStream(process.argv[2],{flags:'a+'});
+// write to the file with a buffer
+file.write(Buffer.from(process.argv[3]));
 
-file.write(process.argv[3]);
-
+// end
 file.end();
