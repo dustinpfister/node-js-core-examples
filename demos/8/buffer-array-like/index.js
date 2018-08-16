@@ -12,3 +12,9 @@ Array.prototype.forEach.call(buff, function (currentByte) {
 67
 68
 */
+
+buff = Buffer.alloc(4);
+
+buff[1] = 0x65;
+
+console.log(buff); // <Buffer 00 65 00 00>
