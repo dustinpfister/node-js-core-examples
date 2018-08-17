@@ -2,12 +2,16 @@ let stream = require('stream');
 
 let writer = new stream.Writable({
 
-        write: function (chunk) {
+        write: function (chunk, enc, cb) {
 
             console.log(chunk.toString());
+
+            cb(null);
 
         }
 
     });
 
-console.log(writer.write('okay'));
+writer.write('okay');
+
+writer.write('hey!');
