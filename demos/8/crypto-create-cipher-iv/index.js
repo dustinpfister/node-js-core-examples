@@ -12,8 +12,10 @@ key = Buffer.concat([Buffer.from('1234-spaceballs-was-the-best-movie-ever!')],ke
 // randomize the iv, for best results
 iv = Buffer.from(Array.prototype.map.call(iv, function(){  return Math.floor(Math.random() * 256)}))
 
+// make the cipher with the current suite, key, and iv
 let cipher = crypto.createCipheriv(a,key, iv);
 
+let writer = fs.createWriteStream('test.coded');
 let reader = fs.createReadStream('test.txt')
 
 .pipe(cipher)
