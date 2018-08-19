@@ -10,7 +10,7 @@ fs.createReadStream('README.md')
 
 .on('close', function () {
 
-    console.log('file discripter closed');
+    console.log('read stream closed');
 
 })
 
