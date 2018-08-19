@@ -1,0 +1,14 @@
+<h1 id="filesystem-create-read-stream">filesystem-create-read-stream</h1>
+<p>These are some demos for making a read stream using the fs.createReadStream method in the node.js file system module.</p>
+<h2 id="basic-example">Basic example</h2>
+<p>A basic example just involves calling the fs.createStream method, passing the path to the file that I want to read. This returns an instance of a readable stream.</p>
+<pre><code class="lang-js">let fs = require(&#39;fs&#39;);
+
+let reader = fs.createReadStream(&#39;README.md&#39;);
+
+reader.on(&#39;data&#39;, function (chunk) {
+
+    console.log(chunk.toString());
+
+});
+</code></pre>
