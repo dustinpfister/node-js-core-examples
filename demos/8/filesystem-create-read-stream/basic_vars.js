@@ -1,6 +1,5 @@
-let fs = require('fs');
-
-let reader = createReadStream('README.md');
+let fs = require('fs'),
+reader = createReadStream('README.md');
 
 reader.on('data', function (chunk) {
 
