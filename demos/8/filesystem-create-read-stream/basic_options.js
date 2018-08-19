@@ -6,9 +6,9 @@ reader = fs.createReadStream('README.md', {
     end: 64,
     highWaterMark: 16
 });
-
+ 
 reader.on('data', function (chunk) {
-
+ 
     console.log(chunk.toString());
-
+ 
 });
