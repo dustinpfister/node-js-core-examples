@@ -1,16 +1,13 @@
 let fs = require('fs');
 
-// setting the flags to a+ will create the file if it is not there
-// however this is not a writable stream, so it will only just create
-// a blank file
-let reader = fs.createReadStream('mightnotbethere.txt', {
+let reader = fs.createReadStream('header.txt', {
         flags: 'a+',
-        start: 8,
-        end: 16
+        start: 10,
+        end: 19
     });
 
 reader.on('data', function (chunk) {
 
-    console.log(chunk.toString());
+    console.log(chunk.toString()); // 'feild_info'
 
 });
