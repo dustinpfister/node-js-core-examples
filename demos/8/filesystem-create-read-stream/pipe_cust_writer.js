@@ -6,16 +6,24 @@ reader = fs.createReadStream('README.md'),
 
 writer = new stream.Writable({
 
-    write: function (chunk, enc, next) {
+        write: function (chunk, enc, next) {
 
-        console.log( marked(chunk.toString()) );
+            let s = this;
 
-        next(null);
+            this.body = this.body || Buffer.alloc(0);
 
-    }
+            this.body = Buffer.concat([this.body, chunk]);
 
-});
+            next(null);
+
+        },
+
+        final: function () {
+
+            console.log(this.body);
+
+        }
+
+    });
 
 reader.pipe(writer);
-
-
