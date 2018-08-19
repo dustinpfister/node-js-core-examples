@@ -13,9 +13,3 @@ fs.createReadStream('README.md')
     console.log('read stream closed');
 
 })
-
-.on('end', function () {
-
-    console.log('stream ended');
-
-})
