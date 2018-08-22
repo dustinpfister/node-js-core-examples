@@ -31,12 +31,12 @@ fs.createReadStream(filename)
 // pipe to writer
 .pipe(fs.createWriteStream(outfile)
 
-    .on('close', function () {
+.on('close', function () {
 
-        console.log(outfile + ' has been coded with: ');
-        console.log('key:');
-        console.log(key.toString('hex'));
-        console.log('iv');
-        console.log(iv.toString('hex'));
+    console.log(outfile + ' has been coded with: ');
+    console.log('key:');
+    console.log(key.toString('hex'));
+    console.log('iv');
+    console.log(iv.toString('hex'));
 
-    }));
+}));
