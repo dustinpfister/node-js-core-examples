@@ -16,12 +16,10 @@ outfile = bName + '.coded';
 key = Buffer.concat([Buffer.from(passwd)], key.length);
 
 // randomize the iv, for best results
-iv = Buffer.from(Array.prototype.map.call(iv, () => {
-            return Math.floor(Math.random() * 256)
-        }));
+iv = Buffer.from(Array.prototype.map.call(iv, () => {return Math.floor(Math.random() * 256)})),
 
 // make the cipher with the current suite, key, and iv
-let cipher = crypto.createCipheriv(a, key, iv);
+cipher = crypto.createCipheriv(a, key, iv);
 
 // read test.txt
 fs.createReadStream(filename)
@@ -32,35 +30,37 @@ fs.createReadStream(filename)
 // pipe to writer
 .pipe(fs.createWriteStream(outfile)
 
-    .on('close', function () {
+.on('close', ()=> {
 
-        console.log(outfile + ' has been coded with: ');
-        console.log('key:');
-        console.log(key.toString('hex'));
-        console.log('iv');
-        console.log(iv.toString('hex'));
+    console.log(outfile + ' has been coded with: ');
+    console.log('key:');
+    console.log(key.toString('hex'));
+    console.log('iv');
+    console.log(iv.toString('hex'));
 
-        fs.writeFile(bName + '-keys.json', 
+    fs.writeFile(bName + '-keys.json',
 
-           // this will be the json
-           JSON.stringify({
-                key: key.toString('hex'),
-                iv: iv.toString('hex')
-            }), 
+        // this will be the json
+        JSON.stringify({
+            key: key.toString('hex'),
+            iv: iv.toString('hex')
+        }),
 
-            // callback
-            function (e) {
+        // callback
+        (e)=> {
 
-                if (e) {
+            if (e) {
 
-                    console.log('error writing keys.json');
+                console.log('error writing keys.json');
 
-                } else {
+            } else {
 
-                    console.log('keys.josn written');
+                console.log('keys.josn written');
 
-                }
+            }
 
-        });
+        }
 
-    }));
+    );
+
+}));

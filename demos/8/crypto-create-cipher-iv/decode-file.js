@@ -8,7 +8,7 @@ filename = process.argv[2] || 'test.coded',
 bName = path.basename(filename, path.extname(filename));
 
 // read the key.json file
-fs.readFile(bName + '-keys.json', function (err, data) {
+fs.readFile(bName + '-keys.json', (err, data)=> {
 
     // keyfile will default to an empty object
     let keyFile = {}
@@ -50,7 +50,7 @@ fs.readFile(bName + '-keys.json', function (err, data) {
     .pipe(fs.createWriteStream(bName + '.decoded'))
 
     // when done decoding
-    .on('close', function () {
+    .on('close', ()=> {
 
         console.log(filename + ' has been decoded using:');
         console.log('key:');
