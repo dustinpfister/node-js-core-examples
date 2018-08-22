@@ -15,11 +15,4 @@ iv = Buffer.from(Array.prototype.map.call(iv, function(){  return Math.floor(Mat
 // make the cipher with the current suite, key, and iv
 let cipher = crypto.createCipheriv(a,key, iv);
 
-let writer = fs.createWriteStream('test.coded');
-let reader = fs.createReadStream('test.txt')
 
-.pipe(cipher)
-
-.on('data', function(chunk){
-    console.log(chunk.toString())
-});
