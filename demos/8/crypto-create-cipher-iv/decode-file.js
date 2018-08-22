@@ -4,30 +4,53 @@ fs = require('fs');
 
 // Cipher Suites, key, and the iv
 let a = 'aes-256-cbc',
-//key = Buffer.alloc(32), // key should be 32 bytes
-//iv = Buffer.alloc(16), // iv should be 16
-
 filename = process.argv[2] || 'test.coded',
-key = Buffer.from(process.argv[3] || '313233342d737061636562616c6c730000000000000000000000000000000000','hex'),
-iv = Buffer.from(process.argv[4] || '00000000000000000000000000000000','hex');
+bName = path.basename(filename, path.extname(filename));
 
-// make the cipher with the current suite, key, and iv
-let cipher = crypto.createDecipheriv(a, key, iv);
+fs.readFile(bName + '-keys.json', function (err, data) {
 
-// read test.txt
-fs.createReadStream(filename)
+    let keyFile = {}
 
-// pipe to cipher
-.pipe(cipher)
+    if (err) {
 
-// pipe to writer
-.pipe(fs.createWriteStream(path.basename(filename,path.extname(filename))+'.decoded'))
+        console.log('error reading keys.json file');
 
-.on('close', function () {
+    } else {
 
-    console.log(filename + ' has been decoded using:');
-    console.log('key:');
-    console.log(key.toString('hex'));
-    console.log('iv');
-    console.log(iv.toString('hex'));
+        try {
+
+            keyFile = JSON.parse(data);
+
+        } catch (e) {
+
+            console.log(e);
+
+        }
+
+    }
+
+    let key = Buffer.from(process.argv[3] || keyFile.key || '313233342d737061636562616c6c730000000000000000000000000000000000', 'hex'),
+    iv = Buffer.from(process.argv[4] || keyFile.iv || '00000000000000000000000000000000', 'hex')
+
+        // make the cipher with the current suite, key, and iv
+        cipher = crypto.createDecipheriv(a, key, iv);
+
+    // read test.txt
+    fs.createReadStream(filename)
+
+    // pipe to cipher
+    .pipe(cipher)
+
+    // pipe to writer
+    .pipe(fs.createWriteStream(bName + '.decoded'))
+
+    .on('close', function () {
+
+        console.log(filename + ' has been decoded using:');
+        console.log('key:');
+        console.log(key.toString('hex'));
+        console.log('iv');
+        console.log(iv.toString('hex'));
+    });
+
 });
