@@ -4,10 +4,13 @@ fs = require('fs');
 // Cipher Suites, key, and the iv
 let a = 'aes-256-cbc',
 key = Buffer.alloc(32), // key should be 32 bytes
-iv = Buffer.alloc(16); // iv should be 16
+iv = Buffer.alloc(16), // iv should be 16
+
+filename = process.argv[2] || 'test.txt',
+passwd = process.argv[3] || '1234-spaceballs';
 
 // make the key something other than a blank buffer
-key = Buffer.concat([Buffer.from('1234-spaceballs')], key.length);
+key = Buffer.concat([Buffer.from(passwd)], key.length);
 
 // randomize the iv, for best results
 iv = Buffer.from(Array.prototype.map.call(iv, () => {
@@ -18,10 +21,10 @@ iv = Buffer.from(Array.prototype.map.call(iv, () => {
 let cipher = crypto.createCipheriv(a, key, iv);
 
 // read test.txt
-fs.createReadStream('test.txt')
+fs.createReadStream(filename)
 
 // pipe to cipher
 .pipe(cipher)
 
 // pipe to writer
-.pipe(fs.createWriteStream('test.coded'));
+.pipe(fs.createWriteStream(filename+'.coded'));
