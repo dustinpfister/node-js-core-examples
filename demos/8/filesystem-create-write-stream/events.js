@@ -35,8 +35,3 @@ let writer = fs.createWriteStream('test.txt', {
 
     });
 
-writer.write('this will fail if the file is there before hand');
-
-//writer.write(65); // attempting to write a number (will cause an error)
-
-writer.end(); // end the stream ( will fire on close)
