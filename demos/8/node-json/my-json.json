@@ -1,0 +1,7 @@
+{
+    "foo": "bar",
+    "n": 42,
+    "baz": [
+        "foo", "bar", "foobar"
+    ]
+}
