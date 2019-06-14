@@ -1,3 +1,3 @@
 ## filesystem-write-file
 
-Demo if the fs.writeFile method
+Demo of the fs.writeFile method

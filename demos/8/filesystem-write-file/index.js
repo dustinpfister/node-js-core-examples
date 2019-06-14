@@ -1,18 +1,12 @@
-
 let fs = require('fs'),
 path = require('path'),
 cwd = process.cwd(),
 
 text = process.argv[2] || 'hello world',
+dir = path.join(cwd, 'test.txt');
 
-fs.readFile(path.join(cwd, 'test.txt'), text, 'utf-8', function (e, data) {
-
+fs.writeFile(dir, text, 'utf-8', (e)=> {
     if (e) {
-
         console.log(e);
-
     }
-
-    console.log(data);
-
 });
