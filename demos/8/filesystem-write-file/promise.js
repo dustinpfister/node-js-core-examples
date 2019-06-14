@@ -1,5 +1,10 @@
 let fs = require('fs'),
-path = require('path');
+path = require('path'),
+path_conf = path.join(process.cwd(), 'conf.json'),
+default_conf = {
+    reset: false,
+    count: 0
+};
 // write
 let write = (file_path, text) => {
     return new Promise((resolve, reject) => {
@@ -26,17 +31,12 @@ let read = (file_path) => {
     });
 };
 
-let path_conf = path.join(process.cwd(), 'conf.json'),
-default_conf = {
-    reset: false,
-    count: 0
-};
-
+// read conf.json
 read(path_conf)
+
+// then if we have a conf.json
 .then((json) => {
-
     let conf = JSON.parse(json);
-
     if (conf.reset) {
         conf = default_conf;
     } else {
@@ -44,14 +44,12 @@ read(path_conf)
     }
     console.log('updated conf.json');
     console.log(conf);
-
     return write(path_conf, JSON.stringify(conf));
-
-}).catch ((e) => {
-
+})
+// else an error
+.catch ((e) => {
     let conf = default_conf;
     console.log('ERROR reading conf.json, writing a new one');
     console.log(conf);
     return write(path_conf, JSON.stringify(conf));
-
 });
