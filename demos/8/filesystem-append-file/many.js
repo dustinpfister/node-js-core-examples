@@ -1,5 +1,4 @@
-var fs = require('fs'),
-os = require('os');
+var fs = require('fs');
 
 var append = function (c) {
     var text = c + ';'; //c + os.EOL;
@@ -10,6 +9,7 @@ var append = function (c) {
     });
 };
 
+// This will result in an EMFILE error
 var i = 8200;
 while (i--) {
     append(i);
