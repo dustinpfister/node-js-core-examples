@@ -1,5 +1,4 @@
 var fs = require('fs');
-
 var append = function (c) {
     var text = c + ';'; //c + os.EOL;
     fs.appendFile('./test.txt', text, function (e) {
