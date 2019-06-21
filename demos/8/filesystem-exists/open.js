@@ -1,6 +1,4 @@
-
 let fs = require('fs');
-
 let open = (path_file, flags) => {
     flags = flags || 'r+';
     return new Promise((resolve, reject) => {
@@ -13,19 +11,28 @@ let open = (path_file, flags) => {
         });
     })
 };
-
 let path_file = './test.txt';
 open(path_file)
-
-.then((fd) => {
-
-    console.log('the file exists the fd is : ' + fd);
-
-})
-
 .catch ((e) => {
-
     console.log('Error opening ' + path_file);
     console.log(e.code);
-
+    if (e.code === 'ENOENT') {
+        return open(path_file, 'w+');
+    }
+})
+.then((fd) => {
+    console.log('the file exists the fd is : ' + fd);
+    let str = 'hello world';
+    let onClose = () => {
+        console.log('file closed');
+    }
+    fs.write(fd, Buffer.from(str), 0, str.length, 0, (e, bw, buff) => {
+        if (e) {
+            console.log(e.message);
+            fs.close(fd, onClose);
+        } else {
+            console.log('bytes written' + bw);
+            fs.close(fd, onClose);
+         }
+    });
 })
