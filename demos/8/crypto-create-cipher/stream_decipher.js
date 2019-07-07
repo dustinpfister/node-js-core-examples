@@ -1,36 +1,5 @@
 let crypto = require('crypto');
 
-let Crypter = (textHex, mode, algorithm, password) => {
-    let out = '';
-    algorithm = algorithm || 'aes192';
-    password = password || '1234-spaceballs';
-    mode = mode || 'cipher';
-    if (textHex === undefined) {
-        return Promise.reject('no text given');
-    }
-    return new Promise((resolve, reject) => {
-        let Create = crypto.createCipher;
-        if (mode === 'decipher') {
-            Create = crypto.createDecipher;
-        }
-        let cipher = Create(algorithm, password);
-        cipher.on('readable', () => {
-            let data = cipher.read();
-            if (data) {
-                out += data.toString('hex');
-            }
-        });
-        cipher.on('end', () => {
-            resolve(out);
-        });
-        cipher.on('error', (e) => {
-            reject(e.message);
-        });
-        cipher.write(textHex, 'utf8');
-        cipher.end();
-    });
-};
-
 let CryptIt = (text, algorithm, password) => {
     let hex = '';
     algorithm = algorithm || 'aes192';
