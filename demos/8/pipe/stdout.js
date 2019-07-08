@@ -1,1 +1,1 @@
-process.stdout.write('foo?');
+process.stdout.write('This is being written to the standard output');
