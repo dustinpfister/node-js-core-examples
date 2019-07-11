@@ -1,5 +1,3 @@
-let buff = Buffer.allocUnsafe(8);
-buff.fill(Buffer.from('ff','hex'))
-
-console.log(buff.toString('hex'));
-// ffffffffffffffff
+let buff = Buffer.allocUnsafe(4);
+buff.fill('a');
+console.log(buff)
