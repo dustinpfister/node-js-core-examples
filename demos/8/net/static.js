@@ -1,16 +1,31 @@
-let http = require('http');
+let http = require('http'),
+fs = require('fs');
 
 let server = http.createServer();
 
 // on request
 server.on('request', (req, res) => {
-    console.log(req.url);
-    if(req.url === '/') {
-        res.end('root');
-    }
-    else {
+    if (req.url === '/') {
+        let reader = fs.createReadStream('index.js', {
+                highWaterMark: 16
+            });
+
+        reader.on('readable', () => {
+
+            //while (chunk = reader.read() != null) {
+            //console.log(chunk);
+            //console.log(reader.read());
+            res.write(reader.read());
+
+            res.end();
+
+        })
+
+    } else {
         res.end();
+
     }
+
 });
 
 server.on('clientError', (err, socket) => {
