@@ -8,9 +8,11 @@ server.on('request', (req, res) => {
 
     if (req.url === '/' && req.method === 'GET') {
 
-        let reader = fs.createReadStream('index.js', {
+        let reader = fs.createReadStream('./public/index.html', {
                 highWaterMark: 128
             });
+
+        res.setHeader('Content-Type', 'text/html');
 
         reader.on('data', (data) => {
             console.log('sent chunk: ')
