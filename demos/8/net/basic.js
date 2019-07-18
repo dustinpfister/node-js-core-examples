@@ -8,7 +8,7 @@ server.on('connection', (socket) => {
     socket.on('end', () => {
         console.log('disconnected');
     });
-    socket.write('hello\r\n');
+    socket.write('hello world this is node net in action! \r\n');
     socket.end()
 });
 
