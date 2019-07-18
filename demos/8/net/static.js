@@ -5,21 +5,22 @@ let server = http.createServer();
 
 // on request
 server.on('request', (req, res) => {
-    if (req.url === '/') {
+
+    if (req.url === '/' && req.method === 'GET') {
+
         let reader = fs.createReadStream('index.js', {
-                highWaterMark: 16
+                highWaterMark: 128
             });
 
-        reader.on('readable', () => {
+        reader.on('data', (data) => {
+            console.log('sent chunk: ')
+            res.write(data);
+        });
 
-            //while (chunk = reader.read() != null) {
-            //console.log(chunk);
-            //console.log(reader.read());
-            res.write(reader.read());
-
+        reader.on('end', () => {
+            console.log('done');
             res.end();
-
-        })
+        });
 
     } else {
         res.end();
