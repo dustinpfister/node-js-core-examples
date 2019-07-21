@@ -1,26 +1,12 @@
 let crypto = require('crypto');
 
-let genKey = (pw, salt, len) => {
-    pw = pw || 'foo';
-    salt = salt || 'bar';
-    len = len || 16;
-    return new Promise((resolve, reject) => {
-        crypto.pbkdf2(pw, salt, 100, len, 'sha512', (e, key) => {
-            if (e) {
-                reject(e);
-            } else {
-                resolve(key)
-            }
-        });
-    });
-};
+let pw = 'spaceballs-1234',
+salt = 'lone-star',
+i = 10000,
+len = 16,
+digest = 'sha512';
 
-genKey()
-.then((key) => {
+crypto.pbkdf2(pw, salt, i, len, digest, (e, key) => {
     console.log(key.toString('hex'));
-})
-.catch ((e) => {
-
-    console.log(e.message);
-
+    // b90854ed18358d7aa5cd70691f2337f4
 });
