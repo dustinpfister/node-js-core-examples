@@ -20,7 +20,5 @@ genKey()
     console.log(key.toString('hex'));
 })
 .catch ((e) => {
-
     console.log(e.message);
-
 });
