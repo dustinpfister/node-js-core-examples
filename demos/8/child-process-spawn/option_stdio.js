@@ -7,10 +7,11 @@ script = spawn('node', ['option_stdio_test.js'], {
 
 script.on('message', (m) => {
 
-    console.log(m);
+    console.log(m.b); // 12
+    script.kill();
 
 })
 
 script.send({
-    mess: 'I can now send ipc messages with spawn!'
+    a: 5
 });
