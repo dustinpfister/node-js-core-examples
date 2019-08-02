@@ -9,5 +9,5 @@ script = spawn('node', ['basic_test.js']);
 // test.js launched via the node spawn
 // child process method
 script.stdout.on('data', function(data){
-    console.log(data.toString());
+    console.log(data.toString()); // 'this is a test'
 });
