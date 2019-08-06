@@ -1,7 +1,7 @@
 let str = 'jalape\u00f1o';
 console.log(str); // jalapeño
 
-// array length is 8
+// string length is 8
 console.log(str.length); 
 
 // actual data size in bytes is 9
