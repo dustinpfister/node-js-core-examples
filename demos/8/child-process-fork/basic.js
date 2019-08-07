@@ -1,3 +1,3 @@
 let fork = require('child_process').fork;
 // call the script from this script
-fork('./basic-test.js');
+fork(process.argv[2] || './basic-test.js');
