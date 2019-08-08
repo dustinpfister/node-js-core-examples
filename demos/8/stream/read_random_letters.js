@@ -21,20 +21,17 @@ exports.RandomLetters = function (opt) {
     return new stream.Readable({
         // must have a read method
         read: function () {
+
+            // generate some data
             let n = 65 + Math.round(25 * Math.random());
             let buff = Buffer.from(n.toString(16), 'hex');
-            /*
-            if (byteCount < totalBytes) {
-            // use the push method to push data to be
-            // consumed
-            this.push(buff);
-            } else {
-            // push null when done
-            this.push(null);
-            }
-             */
+
+            // call stopIf and step index
             opt.stopIf.call(this, buff, opt);
             opt.byteIndex += 1;
+            if (opt.byteIndex > opt.totalBytes) {
+                opt.byteIndex %= opt.totalBytes;
+            }
         }
     });
 };
