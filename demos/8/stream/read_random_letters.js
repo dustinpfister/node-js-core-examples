@@ -19,8 +19,9 @@ exports.RandomLetters = function (opt) {
     opt.totalBytes = opt.totalBytes === undefined ? 1024 : opt.totalBytes;
     opt.stopIf = opt.stopIf || stopIf;
     return new stream.Readable({
+        highWaterMark: 1,
         // must have a read method
-        read: function () {
+        read: function (size) {
 
             // generate some data
             let n = 65 + Math.round(25 * Math.random());
