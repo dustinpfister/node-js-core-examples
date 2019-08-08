@@ -9,16 +9,8 @@ let readStream = RandomLetters({
         }
     });
 
-// if uncommented this will go forever until I break with ctr+c
-// readStream.pipe(process.stdout);
+// this will go forever until I break with ctr+c
+// because piping is a way to enter flowing state
+readStream.pipe(process.stdout);
 
-// So then I can just read and read and define my condition to stop
-// some other way
-let loop = () => {
-    let letter = readStream.read().toString();
-    process.stdout.write(letter);
-    if (letter != 'A') {
-        loop();
-    }
-};
-loop();
+
