@@ -15,7 +15,6 @@ let loop = () => {
             process.exitCode = 0;
             clearTimeout(t);
         }
-
         rollCount += 1;
     }
 };
