@@ -73,6 +73,9 @@ process.stdin.on('data', (data) => {
         process.exit()
     }
 
+    pos.x = pos.x > pos.w ? pos.w: pos.x;
+    pos.y = pos.y > pos.h ? pos.h: pos.y;
+
     draw(pos);
     setCur(1, 6);
 
