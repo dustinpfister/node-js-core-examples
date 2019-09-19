@@ -1,11 +1,11 @@
 let color = {
-
-    byNum: (mess, fgNum) => {
+    byNum: (mess, fgNum, bgNum) => {
         mess = mess || '';
         fgNum = fgNum === undefined ? 31 : fgNum;
-        return '\u001b[' + fgNum + 'm' + mess + '\u001b[39m';
+        bgNum = bgNum === undefined ? 47 : bgNum;
+        return '\u001b[' + fgNum + 'm' + '\u001b[' + bgNum + 'm' + mess + '\u001b[39m\u001b[49m';
     },
-
+    black: (mess) => color.byNum(mess, 30),
     red: (mess) => color.byNum(mess, 31),
     green: (mess) => color.byNum(mess, 32),
     yellow: (mess) => color.byNum(mess, 33),
@@ -16,7 +16,8 @@ let color = {
 
 };
 
-let text = 'hello world.'
+let text = 'hello world.';
+console.log(color.black(text, 31));
 console.log(color.red(text, 31));
 console.log(color.green(text, 31));
 console.log(color.yellow(text, 31));
