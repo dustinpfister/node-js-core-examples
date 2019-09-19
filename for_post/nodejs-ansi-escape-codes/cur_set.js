@@ -1,18 +1,19 @@
+let out = process.stdout;
 // Set the position of a cursor
 let setCur = (x, y) => {
     x = x || 0;
     y = y || 0;
-    process.stdout.write('\u001b[' + y + ';' + x + 'H');
+    out.write('\u001b[' + y + ';' + x + 'H');
 }
 let clearScreen = () => {
-    process.stdout.write('\u001b[2J');
+    out.write('\u001b[2J');
 }
 let colorsSet = () => {
-    process.stdout.write('\u001b[47m');
-    process.stdout.write('\u001b[30m');
+    out.write('\u001b[47m');
+    out.write('\u001b[30m');
 };
 let colorsDefault = () => {
-    process.stdout.write('\u001b[39m\u001b[49m');
+    out.write('\u001b[39m\u001b[49m');
 
 };
 // draw the area and at symbol
@@ -24,14 +25,14 @@ let draw = (opt) => {
     setCur(1, 1);
     colorsSet();
     // draw area
-    process.stdout.write('..........\n');
-    process.stdout.write('..........\n');
-    process.stdout.write('..........\n');
-    process.stdout.write('..........\n');
-    process.stdout.write('move: wasd; exit: x');
+    out.write('..........\n');
+    out.write('..........\n');
+    out.write('..........\n');
+    out.write('..........\n');
+    out.write('move: wasd; exit: x');
     // draw at symbol
     setCur(opt.x, opt.y);
-    process.stdout.write('@');
+    out.write('@');
     colorsDefault();
 
 };
