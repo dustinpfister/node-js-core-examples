@@ -22,12 +22,17 @@ isFile = (filePath) => {
     });
 }
 
+// read the dir
 readdir(dir_root)
+// then map an isFile for each item in the array
+// and pass the result to Promise.all
 .then((files) => {
     return Promise.all(files.map((file) => {
             return isFile(path.join(dir_root, file));
         }));
 })
+// once all items are processed filter all false items
+// to get a list of just files
 .then((result) => {
     result = result.filter((item) => {
             return item;
