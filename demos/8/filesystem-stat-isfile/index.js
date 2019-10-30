@@ -41,7 +41,7 @@ readdir(dir_root)
 })
 .catch((e) => {
     console.log(e.message);
-})
+});
 
 /*
 
