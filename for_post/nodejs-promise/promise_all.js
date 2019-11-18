@@ -11,7 +11,7 @@ let mkMapsFolder = () => {
     return mkdir('./maps')
     // if successful just resolve
     .then(() => {
-        return promise.resolve();
+        return Promise.resolve();
     })
     // folder is there or other error
     .catch((e) => {
@@ -56,12 +56,13 @@ let writeMapFile = (opt) => {
 
 };
 
+// make maps folder with all maps
 mkMapsFolder()
 .then(() => {
     console.log('all is good with maps folder, creating maps.');
     let maps = [],
     i = 0,
-    mapCount = 10;
+    mapCount = 100;
     while (i < mapCount) {
         maps.push(writeMapFile({
                 root: './maps',
@@ -69,6 +70,7 @@ mkMapsFolder()
             }));
         i += 1;
     }
+    // resolve when map writes resolve
     return Promise.all(maps);
 })
 .then(() => {
