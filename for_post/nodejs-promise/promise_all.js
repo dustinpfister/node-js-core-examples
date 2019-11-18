@@ -27,7 +27,6 @@ let mkMapsFolder = () => {
 
 // write a map file
 let writeMapFile = (opt) => {
-
     opt = opt || {};
     opt.name = opt.name || '';
     opt.root = opt.root || path.resolve('./');
@@ -51,6 +50,7 @@ let writeMapFile = (opt) => {
         height: opt.height,
         cells: cells
     };
+    console.log('writing map: ' + opt.fileName);
     // write map
     return writeFile(path.join(opt.root, opt.fileName), JSON.stringify(map), 'utf8');
 
@@ -59,11 +59,20 @@ let writeMapFile = (opt) => {
 mkMapsFolder()
 .then(() => {
     console.log('all is good with maps folder, creating maps.');
-	return writeMapFile({
-		root: './maps',
-		name: 1
-		
-	});
+    let maps = [],
+    i = 0,
+    mapCount = 10;
+    while (i < mapCount) {
+        maps.push(writeMapFile({
+                root: './maps',
+                name: i + 1
+            }));
+        i += 1;
+    }
+    return Promise.all(maps);
+})
+.then(() => {
+    console.log('all maps created');
 })
 .catch((e) => {
     console.log(e.message);
