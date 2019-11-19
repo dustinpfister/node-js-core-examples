@@ -59,27 +59,31 @@ let writeMapFile = (opt) => {
     console.log('writing map: ' + opt.fileName);
     // write map
     return writeFile(path.join(opt.root, opt.fileName), JSON.stringify(map), 'utf8');
-
 };
 
 // make maps folder with all maps
-mkMapsFolder()
-.then(() => {
-    console.log('all is good with maps folder, creating maps.');
-    let maps = [],
-    i = 0,
-    mapCount = 100;
-    while (i < mapCount) {
-        maps.push(writeMapFile({
-                root: './maps',
-                name: i + 1
-            }));
-        i += 1;
-    }
-    // resolve when map writes resolve
-    return Promise.all(maps);
-})
-.then(() => {
+let writeMapsFolder = (opt) => {
+
+    return mkMapsFolder()
+    .then(() => {
+        console.log('all is good with maps folder, creating maps.');
+        let maps = [],
+        i = 0,
+        mapCount = 100;
+        while (i < mapCount) {
+            maps.push(writeMapFile({
+                    root: './maps',
+                    name: i + 1
+                }));
+            i += 1;
+        }
+        // resolve when map writes resolve
+        return Promise.all(maps);
+    });
+
+};
+
+writeMapsFolder().then(() => {
     console.log('all maps created');
 })
 .catch((e) => {
