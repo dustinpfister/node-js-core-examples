@@ -6,9 +6,10 @@ let mkdir = promisify(fs.mkdir),
 writeFile = promisify(fs.writeFile);
 
 // make the maps folder
-let mkMapsFolder = () => {
+let mkMapsFolder = (root) => {
+    root = root || process.cwd();
     // attempt to make a new maps folder
-    return mkdir('./maps')
+    return mkdir(path.join(root, 'maps'))
     // if successful just resolve
     .then(() => {
         return Promise.resolve();
@@ -64,18 +65,19 @@ let writeMapFile = (opt) => {
 // make maps folder with all maps
 let writeMapsFolder = (opt) => {
     opt = opt || {};
+    opt.root = opt.root || process.cwd();
     opt.forCell = opt.forCell || function (cell) {
         return cell;
     };
-    return mkMapsFolder()
+    return mkMapsFolder(opt.root)
     .then(() => {
         console.log('all is good with maps folder, creating maps.');
         let maps = [],
         i = 0,
-        mapCount = 100;
+        mapCount = 10;
         while (i < mapCount) {
             maps.push(writeMapFile({
-                    root: './maps',
+                    root: path.join(opt.root, 'maps'),
                     name: i + 1,
                     forCell: opt.forCell
                 }));
@@ -87,6 +89,7 @@ let writeMapsFolder = (opt) => {
 };
 
 writeMapsFolder({
+    root: './',
     forCell: function (cell) {
         cell.type = 'grass';
         return cell;
