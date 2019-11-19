@@ -31,16 +31,22 @@ let writeMapFile = (opt) => {
     opt.name = opt.name || '';
     opt.root = opt.root || path.resolve('./');
     opt.fileName = opt.fileName || 'map_' + opt.name + '.json';
-    opt.width = opt.width || 10;
-    opt.height = opt.height || 10;
+    opt.width = opt.width || 4;
+    opt.height = opt.height || 4;
+    opt.forCell = opt.forCell || function (cell) {
+        return cell;
+    };
     // create cells
     let i = 0,
     cells = [],
     len = opt.width * opt.height;
     while (i < len) {
-        cells.push({
-            type: 'blank'
-        });
+        cells.push(opt.forCell({
+                type: 'blank',
+                i: i,
+                x: i % opt.width,
+                y: Math.floor(i / opt.width)
+            }));
         i += 1;
     }
     // create map object
