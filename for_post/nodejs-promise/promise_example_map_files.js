@@ -1,12 +1,12 @@
+// using node modules
 let fs = require('fs'),
 path = require('path'),
 promisify = require('util').promisify;
-
+// promisify file system methods
 let mkdir = promisify(fs.mkdir),
 writeFile = promisify(fs.writeFile),
 readFile = promisify(fs.readFile),
 readdir = promisify(fs.readdir);
-
 // make the maps folder
 let mkMapsFolder = (root) => {
     root = root || process.cwd();
@@ -27,7 +27,6 @@ let mkMapsFolder = (root) => {
         }
     });
 };
-
 // write a map file
 let writeMapFile = (opt) => {
     opt = opt || {};
@@ -95,7 +94,6 @@ let writeMapIndex = (opt) => {
         });
     });
 };
-
 // make maps folder with all maps
 let writeMapsFolder = (opt) => {
     opt = opt || {};
@@ -140,32 +138,30 @@ let writeMapsFolder = (opt) => {
             root: opt.root,
             indexBy: opt.indexBy
         });
-
     })
 };
-
 // demo
 writeMapsFolder({
     root: './',
     mapCount: 5,
     cellWidth: 2,
     cellHeight: 2,
+    // worth value for each cell
     forCell: function (cell) {
         cell.type = 'grass';
-        // worth value for each cell
         cell.worth = 50 + Math.round(50 * Math.random());
         return cell;
     },
+    // tabulate map cell worth
     forMap: function (map) {
-        // tabulate map cell worth
         map.worth = map.cells.reduce((acc, cell) => {
                 acc = typeof acc === 'object' ? acc.worth : acc;
                 return acc + cell.worth;
             });
         return map;
     },
+    // index maps by worth
     indexBy: function (a, b) {
-
         if (a.worth > b.worth) {
             return -1;
         }
@@ -173,7 +169,6 @@ writeMapsFolder({
             return 1;
         }
         return 0;
-
     }
 }).then(() => {
     console.log('done creating map files and map index');
