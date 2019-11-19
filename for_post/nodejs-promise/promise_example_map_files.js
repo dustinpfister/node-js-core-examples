@@ -39,6 +39,9 @@ let writeMapFile = (opt) => {
     opt.forCell = opt.forCell || function (cell) {
         return cell;
     };
+    opt.forMap = opt.forMap || function (map) {
+        return map;
+    };
     // create cells
     let i = 0,
     cells = [],
@@ -49,21 +52,21 @@ let writeMapFile = (opt) => {
                 i: i,
                 x: i % opt.width,
                 y: Math.floor(i / opt.width)
-            }));
+            }, i));
         i += 1;
     }
     // create map object
-    let map = {
-        name: opt.name,
-        width: opt.width,
-        height: opt.height,
-        cells: cells
-    };
+    let map = opt.forMap({
+            name: opt.name,
+            width: opt.width,
+            height: opt.height,
+            cells: cells
+        });
     console.log('writing map: ' + opt.fileName);
     // write map
     return writeFile(path.join(opt.root, opt.fileName), JSON.stringify(map), 'utf8');
 };
-
+// build an index
 let writeMapIndex = (opt) => {
     opt = opt || {};
     opt.root = path.resolve(opt.root || process.cwd());
@@ -97,6 +100,9 @@ let writeMapsFolder = (opt) => {
     opt.forCell = opt.forCell || function (cell) {
         return cell;
     };
+    opt.forMap = opt.forMap || function (map) {
+        return map;
+    };
     opt.mapCount = opt.mapCount || 10;
     opt.cellWidth = opt.cellWidth || 12;
     opt.cellHeight = opt.cellHeight || 12;
@@ -112,6 +118,7 @@ let writeMapsFolder = (opt) => {
                     root: path.join(opt.root, 'maps'),
                     name: i + 1,
                     forCell: opt.forCell,
+                    forMap: opt.forMap,
                     width: opt.cellWidth,
                     height: opt.cellHeight,
                 }));
@@ -134,11 +141,21 @@ let writeMapsFolder = (opt) => {
 writeMapsFolder({
     root: './',
     mapCount: 5,
-    cellWidth: 4,
+    cellWidth: 2,
     cellHeight: 2,
     forCell: function (cell) {
         cell.type = 'grass';
+        // worth value for each cell
+        cell.worth = 50 + Math.round(50 * Math.random());
         return cell;
+    },
+    forMap: function (map) {
+        // tabulate map cell worth
+        map.worth = map.cells.reduce((acc, cell) => {
+                acc = typeof acc === 'object' ? acc.worth : acc;
+                return acc + cell.worth;
+            });
+        return map;
     }
 }).then(() => {
     console.log('done creating map files and map index');
