@@ -4,7 +4,7 @@ promisify = require('util').promisify;
 
 let mkdir = promisify(fs.mkdir),
 writeFile = promisify(fs.writeFile),
-readFile = promisify(fs.writeFile),
+readFile = promisify(fs.readFile),
 readdir = promisify(fs.readdir);
 
 // make the maps folder
@@ -66,16 +66,28 @@ let writeMapFile = (opt) => {
 
 let writeMapIndex = (opt) => {
     opt = opt || {};
-    opt.root = opt.root || process.cwd();
-
+    opt.root = path.resolve(opt.root || process.cwd());
     return readdir(path.join(opt.root, 'maps'))
-
     .then((files) => {
-
-        console.log(files);
-
+        // read all map files
+        return Promise.all(files.map((fileName) => {
+                return readFile(path.join(path.join(opt.root, 'maps', fileName)), 'utf8')
+                .then((map) => {
+                    console.log('read ' + fileName);
+                    map = JSON.parse(map);
+                    map.fileName = fileName;
+                    return map
+                });
+            }))
+        // build index for all map files
+        .then((maps) => {
+            console.log('building index for ' + maps.length + ' map files');
+            let json = JSON.stringify(maps.map((map) => {
+                        return path.join(opt.root, 'maps', map.fileName);
+                    }));
+            return writeFile(path.join(opt.root, 'map_index.json'), json, 'utf8');
+        });
     });
-
 };
 
 // make maps folder with all maps
