@@ -70,6 +70,8 @@ let writeMapsFolder = (opt) => {
         return cell;
     };
     opt.mapCount = opt.mapCount || 10;
+    opt.cellWidth = opt.cellWidth || 12;
+    opt.cellHeight = opt.cellHeight || 12;
     return mkMapsFolder(opt.root)
     .then(() => {
         console.log('all is good with maps folder, creating maps.');
@@ -79,7 +81,9 @@ let writeMapsFolder = (opt) => {
             maps.push(writeMapFile({
                     root: path.join(opt.root, 'maps'),
                     name: i + 1,
-                    forCell: opt.forCell
+                    forCell: opt.forCell,
+                    width: opt.cellWidth,
+                    height: opt.cellHeight,
                 }));
             i += 1;
         }
@@ -91,6 +95,8 @@ let writeMapsFolder = (opt) => {
 writeMapsFolder({
     root: './',
     mapCount: 5,
+    cellWidth: 4,
+    cellHeight: 2,
     forCell: function (cell) {
         cell.type = 'grass';
         return cell;
