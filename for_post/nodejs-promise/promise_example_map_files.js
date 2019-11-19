@@ -70,6 +70,9 @@ let writeMapFile = (opt) => {
 let writeMapIndex = (opt) => {
     opt = opt || {};
     opt.root = path.resolve(opt.root || process.cwd());
+    opt.indexBy = opt.indexBy || function (a, b) {
+        return 0;
+    };
     return readdir(path.join(opt.root, 'maps'))
     .then((files) => {
         // read all map files
@@ -85,7 +88,7 @@ let writeMapIndex = (opt) => {
         // build index for all map files
         .then((maps) => {
             console.log('building index for ' + maps.length + ' map files');
-            let json = JSON.stringify(maps.map((map) => {
+            let json = JSON.stringify(maps.sort(opt.indexBy).map((map) => {
                         return path.join(opt.root, 'maps', map.fileName);
                     }));
             return writeFile(path.join(opt.root, 'map_index.json'), json, 'utf8');
@@ -102,6 +105,9 @@ let writeMapsFolder = (opt) => {
     };
     opt.forMap = opt.forMap || function (map) {
         return map;
+    };
+    opt.indexBy = opt.indexBy || function (a, b) {
+        return 0;
     };
     opt.mapCount = opt.mapCount || 10;
     opt.cellWidth = opt.cellWidth || 12;
@@ -131,7 +137,8 @@ let writeMapsFolder = (opt) => {
     .then(() => {
         console.log('done writing map files building index now.');
         return writeMapIndex({
-            root: opt.root
+            root: opt.root,
+            indexBy: opt.indexBy
         });
 
     })
@@ -156,6 +163,17 @@ writeMapsFolder({
                 return acc + cell.worth;
             });
         return map;
+    },
+    indexBy: function (a, b) {
+
+        if (a.worth > b.worth) {
+            return -1;
+        }
+        if (a.worth < b.worth) {
+            return 1;
+        }
+        return 0;
+
     }
 }).then(() => {
     console.log('done creating map files and map index');
