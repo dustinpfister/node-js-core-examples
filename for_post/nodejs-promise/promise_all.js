@@ -69,13 +69,13 @@ let writeMapsFolder = (opt) => {
     opt.forCell = opt.forCell || function (cell) {
         return cell;
     };
+    opt.mapCount = opt.mapCount || 10;
     return mkMapsFolder(opt.root)
     .then(() => {
         console.log('all is good with maps folder, creating maps.');
         let maps = [],
-        i = 0,
-        mapCount = 10;
-        while (i < mapCount) {
+        i = 0;
+        while (i < opt.mapCount) {
             maps.push(writeMapFile({
                     root: path.join(opt.root, 'maps'),
                     name: i + 1,
@@ -90,6 +90,7 @@ let writeMapsFolder = (opt) => {
 
 writeMapsFolder({
     root: './',
+    mapCount: 5,
     forCell: function (cell) {
         cell.type = 'grass';
         return cell;
