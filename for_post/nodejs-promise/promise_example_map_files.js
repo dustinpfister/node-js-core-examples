@@ -64,6 +64,20 @@ let writeMapFile = (opt) => {
     return writeFile(path.join(opt.root, opt.fileName), JSON.stringify(map), 'utf8');
 };
 
+let writeMapIndex = (opt) => {
+    opt = opt || {};
+    opt.root = opt.root || process.cwd();
+
+    return readdir(path.join(opt.root, 'maps'))
+
+    .then((files) => {
+
+        console.log(files);
+
+    });
+
+};
+
 // make maps folder with all maps
 let writeMapsFolder = (opt) => {
     opt = opt || {};
@@ -74,7 +88,9 @@ let writeMapsFolder = (opt) => {
     opt.mapCount = opt.mapCount || 10;
     opt.cellWidth = opt.cellWidth || 12;
     opt.cellHeight = opt.cellHeight || 12;
+    // start by making maps folder if it is not there
     return mkMapsFolder(opt.root)
+    // then write a map file for each mapCount
     .then(() => {
         console.log('all is good with maps folder, creating maps.');
         let maps = [],
@@ -91,7 +107,15 @@ let writeMapsFolder = (opt) => {
         }
         // resolve when map writes resolve
         return Promise.all(maps);
-    });
+    })
+    // then build index
+    .then(() => {
+        console.log('done writing map files building index now.');
+        return writeMapIndex({
+            root: opt.root
+        });
+
+    })
 };
 
 // demo
@@ -105,7 +129,7 @@ writeMapsFolder({
         return cell;
     }
 }).then(() => {
-    console.log('all maps created');
+    console.log('done creating map files and map index');
 })
 .catch((e) => {
     console.log(e.message);
