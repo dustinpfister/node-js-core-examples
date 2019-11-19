@@ -63,7 +63,10 @@ let writeMapFile = (opt) => {
 
 // make maps folder with all maps
 let writeMapsFolder = (opt) => {
-
+    opt = opt || {};
+    opt.forCell = opt.forCell || function (cell) {
+        return cell;
+    };
     return mkMapsFolder()
     .then(() => {
         console.log('all is good with maps folder, creating maps.');
@@ -73,17 +76,22 @@ let writeMapsFolder = (opt) => {
         while (i < mapCount) {
             maps.push(writeMapFile({
                     root: './maps',
-                    name: i + 1
+                    name: i + 1,
+                    forCell: opt.forCell
                 }));
             i += 1;
         }
         // resolve when map writes resolve
         return Promise.all(maps);
     });
-
 };
 
-writeMapsFolder().then(() => {
+writeMapsFolder({
+    forCell: function (cell) {
+        cell.type = 'grass';
+        return cell;
+    }
+}).then(() => {
     console.log('all maps created');
 })
 .catch((e) => {
