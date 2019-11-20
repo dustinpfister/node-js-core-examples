@@ -109,31 +109,22 @@ let acceptUpgrade = (req, socket, head) => {
         'Sec-WebSocket-Accept: ' + acceptKey + '\r\n' +
         '\r\n');
 
-    sendFrame(socket);
+    sendTextFrame(socket, 'Hello');
 };
 
-let sendFrame = function (socket) {
-
+// simple send text frame helper
+let sendTextFrame = function (socket, text) {
     let firstByte = 0x00,
     secondByte = 0x00,
     payloadLength = Buffer.from([0, 0]),
-
-    payload = Buffer.alloc(1);
-
-    payload.write('H');
-
+    payload = Buffer.alloc(text.length);
+    payload.write(text);
     firstByte |= 0x80; // fin bit true
     firstByte |= 0x01; // opt code of 1 (text)
-
-    secondByte |= 0x01;
-
+    secondByte |= text.length; // mask and len
     let frame = Buffer.concat([Buffer.from([firstByte]), Buffer.from([secondByte]), payload]);
-
-    console.log(frame);
-
     socket.write(frame);
-
-}
+};
 
 // attach acceptUpgrade handler
 wsServer.on('upgrade', acceptUpgrade);
