@@ -1,4 +1,16 @@
-let socket = new WebSocket("ws://localhost:8095/", ['ws']);
+/*
+var xml = new XMLHttpRequest();
+xml.open('get', 'http://localhost:8095/');
+xml.setRequestHeader('Upgrade', 'websocket');
+xml.setRequestHeader('Connection', 'Upgrade');
+
+xml.onreadstatechange = function(){
+	console.log(this);
+};
+xml.send();
+*/
+
+let socket = new WebSocket("ws://localhost:8095/");
 
 socket.onopen = function (e) {
     console.log('okay we opened a connection');
