@@ -76,6 +76,16 @@ webServer.listen(port, function () {
     console.log('port: ' + port);
 });
 
+/*
+wsServer resources
+
+https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers
+
+accept key example
+https://github.com/theturtle32/WebSocket-Node/blob/master/lib/WebSocketRequest.js
+
+ */
+
 // The Web Socket server
 let wsServer = http.createServer();
 let crypto = require('crypto');
@@ -89,19 +99,18 @@ let genAcceptKey = (req) => {
     return acceptKey;
 };
 
-wsServer.on('upgrade', (req, socket, head) => {
-
-    console.log('upgrade request');
+let acceptUpgrade = (req, socket, head) => {
+    // gen accept key
     let acceptKey = genAcceptKey(req);
-
+    // write response
     socket.write('HTTP/1.1 101 Web Socket Protocol Handshake\r\n' +
         'Upgrade: WebSocket\r\n' +
         'Connection: Upgrade\r\n' +
         'Sec-WebSocket-Accept: ' + acceptKey + '\r\n' +
         '\r\n');
+};
 
-    socket.pipe(socket);
-});
+wsServer.on('upgrade', acceptUpgrade);
 
 wsServer.on('request', (req, res) => {
 
