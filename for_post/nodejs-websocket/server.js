@@ -1,10 +1,3 @@
-/*
- *  server.js
- *
- *   This just provides a simple static server for the project.
- *
- */
-
 let http = require('http'),
 fs = require('fs'),
 path = require('path'),
@@ -13,13 +6,14 @@ path = require('path'),
 dir_root = path.resolve(__dirname),
 dir_public = path.join(dir_root, 'public'),
 
-// set ports
-port = process.argv[2] || 8090,
+// set ports (just hard coded for now)
+port = 8090,
 wsPort = 8095;
 
 // The web server
 let webServer = http.createServer();
 
+// requests for client system
 webServer.on('request', function (req, res) {
     // get the path
     let p = path.join(dir_public, req.url);
@@ -78,15 +72,16 @@ webServer.listen(port, function () {
     console.log('port: ' + port);
 });
 
+
 // using my simple web socket lib
 let sws = require('./server_ws.js');
 sws({
-    port: 8095,
+    port: wsPort,
     host: 'localhost',
     onReady: function (api) {
-        api.sendText('Yeah this works!');
-        api.sendText('I can send text');
-        api.socket.end();
+        setInterval(function () {
+            api.sendText(Math.round(1024 + 1024 * Math.random()).toString(16))
+        }, 100)
     }
 });
 
