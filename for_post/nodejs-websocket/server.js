@@ -13,11 +13,12 @@ path = require('path'),
 dir_root = path.resolve(__dirname),
 dir_public = path.join(__dirname, 'public'),
 
-// set port with first argument, or 8888
-port = process.argv[2] || 8888; // port 8888 for now
+// set ports
+port = process.argv[2] || 8090,
+wsPort = 8095;
 
-// create and start the server
-let server = http.createServer(function (req, res) {
+// The web server
+let webServer = http.createServer(function (req, res) {
         // get the path
         let p = path.join(dir_public, req.url);
         // get stats of that path
@@ -69,8 +70,35 @@ let server = http.createServer(function (req, res) {
     });
 
 // start server
-server.listen(port, function () {
+webServer.listen(port, function () {
     console.log('hosting client at: ');
     console.log('path: ' + dir_public);
     console.log('port: ' + port);
+});
+
+// The Web Socket server
+let wsServer = http.createServer();
+
+wsServer.on('upgrade', (req, socket, head) => {
+
+    socket.write('HTTP/1.1 101 Web Socket Protocol Handshake\r\n' +
+        'Upgrade: WebSocket\r\n' +
+        'Connection: Upgrade\r\n' +
+        '\r\n');
+    socket.pipe(socket);
+});
+
+wsServer.on('request', (req, res) => {
+
+    console.log('request to web socket server');
+    console.log(req.method);
+    res.end();
+
+});
+
+console.log(wsPort)
+wsServer.listen(wsPort, () => {
+
+    console.log('web socket server is up on port: ' + wsPort);
+
 });

@@ -1,4 +1,4 @@
-let socket = new WebSocket("ws://localhost:8090/");
+let socket = new WebSocket("ws://localhost:8095/", ['ws']);
 
 socket.onopen = function (e) {
     console.log('okay we opened a connection');
