@@ -98,7 +98,7 @@ let genAcceptKey = (req) => {
     let acceptKey = sha1.digest('base64');
     return acceptKey;
 };
-
+// accept upgrade handler for upgrade event
 let acceptUpgrade = (req, socket, head) => {
     // gen accept key
     let acceptKey = genAcceptKey(req);
@@ -108,12 +108,54 @@ let acceptUpgrade = (req, socket, head) => {
         'Connection: Upgrade\r\n' +
         'Sec-WebSocket-Accept: ' + acceptKey + '\r\n' +
         '\r\n');
+
+    sendFrame(socket);
 };
 
+let sendFrame = function (socket) {
+
+    let firstByte = 0x00,
+    secondByte = 0x00,
+    payloadLength = Buffer.from([0, 0]),
+
+    payload = Buffer.alloc(1);
+
+    payload.write('H');
+
+    firstByte |= 0x80; // fin bit true
+    firstByte |= 0x01; // opt code of 1 (text)
+
+    secondByte |= 0x01;
+
+    let frame = Buffer.concat([Buffer.from([firstByte]), Buffer.from([secondByte]), payload]);
+
+    console.log(frame);
+
+    socket.write(frame);
+
+}
+
+// attach acceptUpgrade handler
 wsServer.on('upgrade', acceptUpgrade);
 
-wsServer.on('request', (req, res) => {
+wsServer.on('connection', (socket) => {
 
+    console.log('we have a connection');
+    socket.on('readabule', () => {
+
+        console.log('okay')
+
+        let data;
+        while (data = this.read()) {
+            console.log(data);
+        }
+
+    });
+
+});
+
+// on request
+wsServer.on('request', (req, res) => {
     console.log('request to web socket server');
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8090');
     console.log(req.method);
@@ -122,7 +164,6 @@ wsServer.on('request', (req, res) => {
 
 });
 
-console.log(wsPort)
 wsServer.listen(wsPort, () => {
 
     console.log('web socket server is up on port: ' + wsPort);
