@@ -56,11 +56,8 @@ module.exports = (opt) => {
             }
         }, socket);
     });
-
     wsServer.listen(opt.port, opt.host, () => {
         console.log('web socket server is up on port: ' + opt.port);
     });
-
     return wsServer;
-
 };
