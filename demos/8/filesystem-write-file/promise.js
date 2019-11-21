@@ -1,39 +1,19 @@
 let fs = require('fs'),
 path = require('path'),
-path_conf = path.join(process.cwd(), 'conf.json'),
+promisify = require('util').promisify,
+
+// promisifying node write and read methods
+write = promisify(fs.writeFile),
+read = promisify(fs.readFile);
+
+let path_conf = path.join(process.cwd(), 'conf.json'),
 default_conf = {
     reset: false,
     count: 0
 };
-// write
-let write = (file_path, text) => {
-    return new Promise((resolve, reject) => {
-        fs.writeFile(file_path, text, 'utf-8', (e) => {
-            if (e) {
-                reject(e);
-            } else {
-                resolve(text);
-            }
-        });
-    });
-};
-
-// read
-let read = (file_path) => {
-    return new Promise((resolve, reject) => {
-        fs.readFile(file_path, 'utf-8', (e, text) => {
-            if (e) {
-                reject(e);
-            } else {
-                resolve(text);
-            }
-        });
-    });
-};
 
 // read conf.json
 read(path_conf)
-
 // then if we have a conf.json
 .then((json) => {
     let conf = JSON.parse(json);
@@ -47,9 +27,13 @@ read(path_conf)
     return write(path_conf, JSON.stringify(conf));
 })
 // else an error
-.catch ((e) => {
+.catch((e) => {
     let conf = default_conf;
-    console.log('ERROR reading conf.json, writing a new one');
-    console.log(conf);
-    return write(path_conf, JSON.stringify(conf));
+    if (e.code === 'ENOENT') {
+        console.log('No conf.json, writing a new one');
+        console.log(conf);
+        return write(path_conf, JSON.stringify(conf));
+    } else {
+        console.log(e);
+    }
 });
