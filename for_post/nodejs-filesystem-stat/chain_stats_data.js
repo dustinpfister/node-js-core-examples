@@ -1,4 +1,3 @@
-// use fs.stat promise style with confidence
 let fs = require('fs'),
 path = require('path'),
 cwd = process.cwd(),
@@ -7,10 +6,11 @@ stat = promisify(fs.stat),
 readFile = promisify(fs.readFile),
 path_item = process.argv[2] || cwd;
 
+// a get item info method
 let getItemInfo = (path_item, encoding) => {
     // starting result object
     let result = {
-        path_item: path_item,
+        path_item: path.resolve(path_item),
         stats: null,
         data: null,
         isFile: false,
