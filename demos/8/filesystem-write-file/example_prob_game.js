@@ -72,7 +72,7 @@ let loop = function () {
 
     playRound(process.cwd(), process.argv[2] || 'game_default.json')
     .then((result) => {
-        console.log(result);
+        console.log(count, result);
         count += 1;
         if (count < maxCount) {
             loop();
