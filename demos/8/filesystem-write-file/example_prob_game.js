@@ -67,17 +67,18 @@ let playRound = (dir_root, fileName) => {
 };
 
 let count = 0,
-maxCount = 10000;
+maxCount = process.argv[2] || 1000;
 let loop = function () {
-
-    playRound(process.cwd(), process.argv[2] || 'game_default.json')
+    playRound(process.cwd(), process.argv[3] || 'game_default.json')
     .then((result) => {
         console.log(count, result);
         count += 1;
         if (count < maxCount) {
             loop();
         }
+    })
+    .catch((e) => {
+        console.log(e);
     });
-
 };
 loop();
