@@ -15,9 +15,7 @@ let obj = {
 };
 
 let updateObject = function (obj) {
-
     obj.i += 1;
-
     if (obj.i > obj.iMax) {
         events.emit('overload', obj);
     }
@@ -25,7 +23,5 @@ let updateObject = function (obj) {
 };
 
 setInterval(function () {
-
     updateObject(obj);
-
 }, 250);
