@@ -40,30 +40,39 @@ Board.prototype.getUnit = function (u) {
                 return unit;
             }
         }
+        this.events.emit('error', new Error('unit uid ' + u + ' not found'))
+        return false;
     }
     // if number assume it is an index
     if (typeof u === 'number') {
-        return this.units[u];
+        let unit = this.units[u];
+        if (typeof unit === 'object') {
+            return unit;
+        }
+        this.events.emit('error', new Error('Unit index ' + u + ' is out of range'));
+        return false;
     }
     // if all fails emit an error event, and return and empty object
-    let err = new Error('Attept to get a unit with invalid value: ' + u);
-    this.events.emit('error', err);
-    return {};
+    this.events.emit('error', new Error('Attempt to get a unit with invalid value: ' + u));
+    return false;
 
 };
 
 Board.prototype.moveUnit = function (u, dx, dy) {
-    // get unit, and move it
-    let unit = this.getUnit(u),
-    ox = unit.x,
-    oy = unit.y,
-    x = unit.x = unit.x + dx,
-    y = unit.y = unit.y + dy;
-    // emit a 'unit-move' event
-    this.events.emit('unit-move', unit, ox, oy);
-    // if unit is out of bounds emit an out-of-bounds event
-    if (unit.x < 0 || unit.y >= this.width || unit.y < 0 || unit.y >= this.height) {
-        this.events.emit('unit-out-of-bounds', unit);
+    // get unit
+    let unit = this.getUnit(u);
+    // if unit move it
+    if (unit) {
+        let ox = unit.x,
+        oy = unit.y,
+        x = unit.x = unit.x + dx,
+        y = unit.y = unit.y + dy;
+        // emit a 'unit-move' event
+        this.events.emit('unit-move', unit, ox, oy);
+        // if unit is out of bounds emit an out-of-bounds event
+        if (unit.x < 0 || unit.y >= this.width || unit.y < 0 || unit.y >= this.height) {
+            this.events.emit('unit-out-of-bounds', unit);
+        }
     }
 }
 
