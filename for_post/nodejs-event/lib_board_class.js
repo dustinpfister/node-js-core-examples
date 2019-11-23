@@ -23,7 +23,38 @@ let Board = function (opt) {
 
 };
 
-Board.prototype.moveUnit = function () {}
+// get Unit method
+Board.prototype.getUnit = function (u) {
+
+    // if object assume it is a unit
+    // all ready and just return
+    if (typeof u === 'object') {
+        return u;
+    }
+
+    // if string get unit by it
+    if (typeof u === 'string') {
+        let i = units.length,
+        unit;
+        while (i--) {
+            unit = this.units[i];
+            if (unit.id === u) {
+                return unit;
+            }
+        }
+    }
+
+    // if number assume it is an index
+    if (typeof u === 'number') {
+        return this.units[u];
+    }
+
+    // if all fails return an empty object
+    return {};
+
+};
+
+Board.prototype.moveUnit = function (u, dx, dy) {}
 
 module.exports = {
     Board: Board,
