@@ -9,14 +9,16 @@ write = promisify(fs.write),
 
 path_file = path.join(cwd, 'db.txt');
 
+let fd = null;
 open(path_file, 'w+', 0o666)
 
-.then((fd) => {
+.then((nFd) => {
+    fd = nFd;
+    return write(fd, Buffer.from('foo'), 0, Buffer.length, 0);
+})
 
-
-    console.log(fd);
+.then(() => {
     return close(fd);
-
 })
 
 .catch((e) => {
