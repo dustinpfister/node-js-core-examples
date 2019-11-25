@@ -23,14 +23,13 @@ stat(path_file)
         return Promise.resolve();
     }
     return Promise.reject(e);
-
 })
 // open
 open(path_file, 'a', 0o666)
+// write
 .then((nFd) => {
     fd = nFd;
     console.log('writing to file of size: ' + fileByteLength);
-
     // buffer
     let buff = Buffer.from('foo', 'utf8'),
     buff_start = 0,
@@ -40,16 +39,13 @@ open(path_file, 'a', 0o666)
     // using fs.write
     return write(fd, buff, buff_start, buff_end, startPosition);
 })
-
+// close
 .then(() => {
     return close(fd);
 })
-
 .catch((e) => {
-
     console.log('\n', 'Error: ');
     console.log('code:' + e.code);
     console.log('mess: ' + e.message);
     console.log('');
-
 });
