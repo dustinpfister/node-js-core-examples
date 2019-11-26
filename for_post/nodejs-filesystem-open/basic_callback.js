@@ -3,7 +3,7 @@ path = require('path'),
 
 path_file = path.join(process.cwd(), 'db.txt');
 
-fs.open(path_file, 'a+', 0o666, (err, fd) => {
+fs.open(path_file, 'w+', 0o666, (err, fd) => {
 
     if (err) {
         console.log(err);
