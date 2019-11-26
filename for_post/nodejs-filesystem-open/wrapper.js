@@ -26,7 +26,7 @@ let openDB = (path_file, recordSize) => {
         return Promise.reject(e);
     })
     .then(() => {
-        return promisify(fs.open)(path_file, 'a+', 0o666);
+        return promisify(fs.open)(path_file, 'w+', 0o666);
     })
     .then((fd) => {
         state.fd = fd;
@@ -41,10 +41,19 @@ let appendRecord = (state, record) => {
     return promisify(fs.write)(state.fd, record, 0, state.recordSize, state.startSize);
 };
 
+let writeRecord = (state, record, recNum) => {
+
+    record = record || Buffer.alloc(state.recordSize, 'ff', 'utf8');
+    recNum = recNum || 0;
+
+    return promisify(fs.write)(state.fd, record, 0, state.recordSize, state.recordSize * recNum);
+};
+
 openDB(path.join(process.cwd(), 'db.one.txt'), 8)
 
 .then((state) => {
 
-    return appendRecord(state, Buffer.from('abababa\n', 'utf8'));
+    return writeRecord(state, Buffer.from('fffffff\n', 'utf8'),1);
+    //return appendRecord(state, Buffer.from('abababa\n', 'utf8'));
 
 })
