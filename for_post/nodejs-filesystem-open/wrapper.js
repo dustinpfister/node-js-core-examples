@@ -2,17 +2,20 @@ let fs = require('fs'),
 promisify = require('util').promisify,
 path = require('path');
 
-let openFile = (path_file) => {
+let openDB = (path_file, recordSize) => {
     let state = {
         fd: null,
         stat: {},
         path_file: path_file,
-        startSize: 0
+        startSize: 0,
+        recordSize: recordSize || 32,
+        recordCount: 0
     };
     return promisify(fs.stat)(path_file)
     .then((stat) => {
         state.startSize = stat.size;
         state.stat = stat;
+        state.recordCount = state.startSize / state.recordSize;
         return Promise.resolve();
     })
     .catch((e) => {
@@ -31,7 +34,7 @@ let openFile = (path_file) => {
     });
 };
 
-openFile(path.join(process.cwd(), 'db.one.txt'))
+openDB(path.join(process.cwd(), 'db.one.txt'))
 
 .then((state) => {
 
