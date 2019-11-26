@@ -20,7 +20,7 @@ fs.open(path_file, 'w+', 0o666, (err, fd) => {
                     console.log('file closed');
                 });
             } else {
-                console.log('write done')
+                console.log('write done');
                 fs.close(fd, () => {
                     console.log('file closed');
                 });
