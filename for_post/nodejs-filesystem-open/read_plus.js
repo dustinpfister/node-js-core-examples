@@ -8,7 +8,7 @@ write = promisify(fs.write);
 
 let writeRecordAt = function (opt) {
     opt = opt || {};
-    opt.dbPath = opt.dbPath || path.resolve('./db.txt');
+    opt.dbPath = path.resolve(opt.dbPath || './db.txt');
     opt.recNum = opt.recNum || 0;
     opt.recSize = opt.recSize || 8;
     opt.rec = opt.rec || Buffer.alloc(opt.recSize, 'ff', 'hex');
@@ -22,7 +22,7 @@ let writeRecordAt = function (opt) {
         // as that will work okay for writing the first record
         // at least
         if (e.code === "ENOENT") {
-            return open(opt.dbPath, 'w+', 0o666)
+            return open(opt.dbPath, 'w+', 0o666);
         }
         // reject if other error
         return Promise.reject(e);
@@ -40,7 +40,5 @@ writeRecordAt({
     rec: Buffer.from('ccccccc\n', 'utf8')
 })
 .then(() => {
-
     console.log('write done');
-
-})
+});
