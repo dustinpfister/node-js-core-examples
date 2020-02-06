@@ -27,28 +27,18 @@ server.on('request', function (req, res) {
         encoding = 'utf8';
         resource_content_type = 'text/html';
     }
-
     if (resource_ext === '.ico') {
         encoding = null;
         resource_content_type = 'image/x-icon';
     }
 
-    console.log('');
-    console.log('req.method: ', req.method); // the type of request (GET, POST, HEAD, ect)
-    console.log('req.url: ', req.url); // the path to the resource
-    console.log('resource: ', resource); // the resource in the public folder
-    console.log('content type: ', resource_content_type); // content type
-    console.log('encoding: ', encoding); // encoding
-
     stat(resource).then((stat) => {
         resource_content_length = stat.size;
-        console.log('content length: ', resource_content_length);
         res.writeHead(200, {
             'Content-Type': resource_content_type,
             'Content-Length': resource_content_length
         });
         fs.createReadStream(resource, encoding).pipe(res);
-
     })
     .catch((e) => {
         res.writeHead(500, {
@@ -58,34 +48,8 @@ server.on('request', function (req, res) {
         res.end();
     })
 
-    /*
-    stat(resource).then((stat) => {
-    resource_content_length = stat.size;
-    console.log('content length: ', resource_content_length);
-    return readFile(resource, encoding)
-    })
-    .then((fileData) => {
-    res.writeHead(200, {
-    'Content-Type': resource_content_type,
-    'Content-Length': resource_content_length
-    });
-    res.write(fileData, function () {
-    res.end();
-    });
-    })
-    .catch((e) => {
-    res.writeHead(500, {
-    'Content-Type': 'text/plain'
-    });
-    res.write('501 server error: ' + e.message);
-    res.end();
-    })
-     */
-
 });
 
 server.listen(port, () => {
-
     console.log('web server is up on port: ' + port);
-
 });
