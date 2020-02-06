@@ -2,7 +2,6 @@ let http = require('http'),
 path = require('path'),
 fs = require('fs'),
 promisify = require('util').promisify,
-readFile = promisify(fs.readFile),
 read = promisify(fs.createReadStream),
 stat = promisify(fs.stat),
 
