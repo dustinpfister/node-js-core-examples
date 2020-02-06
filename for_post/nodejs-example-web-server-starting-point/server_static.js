@@ -13,7 +13,8 @@ server.on('request', function (req, res) {
 
     let encoding = 'binary',
     resource = path.join(dir_publicHTML, req.url),
-    resource_ext = path.extname(resource);
+    resource_ext = path.extname(resource),
+    resource_content_type = 'text/html';
 
     // if no file extension append 'index.html'
     resource = !resource_ext ? path.join(resource, 'index.html') : resource;
@@ -21,6 +22,11 @@ server.on('request', function (req, res) {
 
     if (resource_ext === '.html') {
         encoding = 'utf8';
+        resource_content_type = 'text/html';
+    }
+
+    if (resource_ext === '.ico') {
+        resource_content_type = 'image/x-icon';
     }
 
     console.log('');
@@ -34,7 +40,7 @@ server.on('request', function (req, res) {
     .then((fileData) => {
 
         res.writeHead(200, {
-            'Content-Type': 'text/html'
+            'Content-Type': resource_content_type
         });
         res.write(fileData);
         res.end();
