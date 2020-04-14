@@ -1,8 +1,7 @@
 let path = require('path');
 
-let cwd = process.cwd(),
-thisMod = __dirname;
-
-console.log(  path.resolve('.') );
-console.log(  cwd );
-console.log(  thisMod );
+console.log(path.resolve('.'));
+console.log(process.cwd());
+console.log(__filename);
+console.log(__dirname);
+console.log(path.dirname(__filename));
