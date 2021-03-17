@@ -1,4 +1,7 @@
 
 module.exports = () => {
-    console.log('bar');
+    return {
+        mess: 'bar',
+        dirname: __dirname
+    };
 };
