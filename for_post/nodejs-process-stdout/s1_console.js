@@ -1,5 +1,6 @@
 
 console.log( 'Hello World' );
 
-process.stdout.write('Hello World');
+let os = require('os');
+process.stdout.write('Hello World' + os.EOL);
 
