@@ -10,6 +10,16 @@ let colorCode = {
   reset: '\u001b[39m'
 };
 
+var logType = function(mess, eol, type, stream, colors){
+    if(colors){
+       stream.write(colorCode[colors[type] || 'white']);
+    }
+    stream.write(mess + eol);
+    if(colors){
+       stream.write(colorCode.reset);
+    }
+};
+
 var fullLog = (mess, type, eol, out, err, colors) => {
     mess = mess || '';
     type = type || 'info';
@@ -18,16 +28,10 @@ var fullLog = (mess, type, eol, out, err, colors) => {
     err = err === undefined ? process.stderr : err;
     colors = colors || false;
     if(type === 'info'){
-        if(colors){
-           out.write(colorCode[colors.info]);
-        }
-        out.write(mess + eol);
-        if(colors){
-           out.write(colorCode.reset);
-        }
+        logType(mess, eol, type, out, colors);
     }
     if(type === 'error'){
-        err.write(mess + eol);
+        logType(mess, eol, type, err, colors);
     }
 };
 
