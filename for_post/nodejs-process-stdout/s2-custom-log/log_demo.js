@@ -1,16 +1,7 @@
-let log = (mess, eol, stream) => {
-    mess = mess || '';
-    eol = eol || '';
-    stream = stream === undefined ? process.stdout : stream;
-    stream.write(mess + eol);
-};
+let path = require('path');
+let log = require( path.join(__dirname, 'log.js') );
 
-log('foo', '\n');
-log('bar', '\n');
-// foo
-// bar
+log('Hello World', 'info', '\n');
 
 
-log('foo', '');
-log('bar', '\n');
-// foobar
+log('no good', 'error', '\n');
