@@ -24,10 +24,17 @@ var fullLog = (mess, type, eol, out, err, color) => {
     }
 };
 
+// typically log function
 var api = function(mess, type, eol){
    fullLog(mess, type, eol, process.stdout, process.stderr, true);
 };
 
+// typical settings for clean output
+api.clean = function(mess, type){
+   fullLog(mess, type, '', process.stdout, process.stderr, false);
+};
+
+// making full log method public
 api.fullLog = fullLog;
 
 module.exports = api;
