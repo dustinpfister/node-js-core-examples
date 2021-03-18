@@ -20,24 +20,19 @@ var logType = function(mess, eol, type, stream, colors){
     }
 };
 
-var fullLog = (mess, type, eol, out, err, colors) => {
+var fullLog = (mess, type, eol, colors, typeObj) => {
     mess = mess || '';
     type = type || 'info';
     eol = eol || '';
-    out = out === undefined ? process.stdout : out;
-    err = err === undefined ? process.stderr : err;
     colors = colors || false;
-    if(type === 'info'){
-        logType(mess, eol, type, out, colors);
-    }
-    if(type === 'error'){
-        logType(mess, eol, type, err, colors);
-    }
+    typeObj = typeObj || { info: process.stdout, error: process.stderr }
+    // log
+    logType(mess, eol, type, typeObj[type], colors);
 };
 
 // typically log function
 var api = function(mess, type, eol){
-   fullLog(mess, type, eol, process.stdout, process.stderr, {
+   fullLog(mess, type, eol, {
        info: 'cyan',
        error: 'red'
    });
@@ -45,7 +40,7 @@ var api = function(mess, type, eol){
 
 // typical settings for clean output
 api.clean = function(mess, type){
-   fullLog(mess, type, '', process.stdout, process.stderr, false);
+   fullLog(mess, type, '', false);
 };
 
 // making full log method public
