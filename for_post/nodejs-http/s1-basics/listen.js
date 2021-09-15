@@ -1,8 +1,12 @@
+// require in the http module
 let http = require('http'),
-server = http.createServer(),
-port = process.env.PORT || process.env[2] || 8080;
-server.on('request', function (req, res) {
-    res.end('hello world');
+// need a port number
+port = process.env.PORT || process.env[2] || 8080,
+// create a server
+server = http.createServer((req, res) => {
+        res.end('hello world');
+    });
+// listen on the port
+server.listen(port, () => {
+    console.log('server is up on http://localhost:' + port);
 });
-
-server.listen(port);
