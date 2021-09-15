@@ -1,8 +1,8 @@
 let http = require('http'),
-fs = require('fs');
- 
-let server = http.createServer();
- 
+fs = require('fs'),
+server = http.createServer(),
+port = 8080,
+host = 'localhost'
 // on request
 server.on('request', (req, res) => {
     if (req.url === '/' && req.method === 'GET') {
@@ -22,12 +22,14 @@ server.on('request', (req, res) => {
         res.end();
     }
 });
- 
-server.on('clientError', (err, socket) => {
-    socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
-});
- 
-server.listen(8080, 'localhost', 200, () => {
+// on listening
+server.on('listening', () => {
     let add = server.address();
     console.log('static server up on http://' + add.address + ':' + add.port);
 });
+// on client error
+server.on('clientError', (err, socket) => {
+    socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+});
+// listen
+server.listen(port, host, 200);
