@@ -6,7 +6,6 @@ server = http.createServer(),
 port = 8080,
 host = 'localhost',
 dir_public = process.argv[0] || process.cwd();
-
 // on request
 server.on('request', (req, res) => {
     if (req.url === '/' && req.method === 'GET') {

@@ -1,6 +1,6 @@
 # nodejs-http todo list
 
-## (   ) - s1 request object example
+## (   ) - s2 request object example
 * have a basic request object example that looks at req.url
 * have a basic request object example that looks as req.method and req.url
 
