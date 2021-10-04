@@ -5,5 +5,6 @@ fs.readFile('./basic.js', (err, data) => {
         console.log(err);
     }
     console.log(Buffer.isBuffer(data)); // true
-    console.log(data);
+    console.log(typeof data); // 'object'
+    console.log(data.toString()); // [text of this code]
 });
