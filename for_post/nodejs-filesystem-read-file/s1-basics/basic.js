@@ -1,8 +1,9 @@
 let fs = require('fs');
 
-fs.readFile('./s1_basic.js', 'utf8', (err, data) => {
+fs.readFile('./basic.js', (err, data) => {
     if (err) {
         console.log(err);
     }
+    console.log(Buffer.isBuffer(data)); // true
     console.log(data);
 });
