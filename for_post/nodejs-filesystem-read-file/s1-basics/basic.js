@@ -5,5 +5,4 @@ fs.readFile('./s1_basic.js', 'utf8', (err, data) => {
         console.log(err);
     }
     console.log(data);
-
 });
