@@ -3,7 +3,7 @@ const crypto = require('crypto');
 // parse arguments
 const str_passwd = process.argv[2] || '';
 const str_mode = process.argv[3] || 'cipher';
-const str_a = process.argv[4] || 'AES-256-GCM';
+const str_a = process.argv[4] || 'AES-256-CBC';
 const str_iv = process.argv[5] || '';
 const str_EOL_flag = process.argv[6] === undefined ? 'y' : process.argv[6];
 let str_EOL = '\n';
